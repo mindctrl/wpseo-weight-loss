@@ -2,7 +2,7 @@
 /*
 Plugin Name: WordPress SEO Weight Loss Program
 Description: Lose some of the fat that comes from eating Yoast's spam sandwich.
-Version: 1.0.0
+Version: 1.0.1
 Author: John Parris
 Author URI: http://www.johnparris.com/
 License: GPLv2
@@ -15,6 +15,7 @@ function jp_wpseo_fat_slicer() {
 
 		add_action( 'add_meta_boxes', 'jp_remove_yoast_metabox', 99 );
 		add_filter( 'wp_before_admin_bar_render', 'jp_admin_bar_seo_cleanup' );
+		add_action( 'admin_menu', 'jp_admin_menu_cleanup' );
 		add_filter( 'manage_edit-post_columns', 'jp_remove_columns' );
 		add_filter( 'manage_edit-page_columns', 'jp_remove_columns' );
 		// add_filter( 'manage_edit-CPTNAME_columns', 'jp_remove_columns' ); // Replace CPTNAME with your custom post type name, for example "restaurants".
@@ -68,4 +69,17 @@ function jp_remove_columns( $columns ) {
 	unset( $columns['wpseo-focuskw'] );
 
 	return $columns;
+}
+
+
+
+/**
+ * Removes the SEO menu item from the admin menu.
+ *
+ * @since 1.0.1
+ * @uses remove_menu-page()
+ */
+function jp_admin_menu_cleanup() {
+
+	remove_menu_page( 'wpseo_dashboard' );
 }
